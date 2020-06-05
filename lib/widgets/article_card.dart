@@ -34,7 +34,7 @@ class ArticleCard extends StatelessWidget {
                         style: TextStyle(
                             color: ColorPalette.PrimaryColor,
                             fontStyle: FontStyle.italic,
-                            fontSize: 12.0),
+                            fontSize: 14.0),
                       ),
                       onPressed: () {},
                     )),
@@ -44,7 +44,7 @@ class ArticleCard extends StatelessWidget {
                     '${_article.created.day}-${_article.created.month}-${_article.created.year}',
                     softWrap: true,
                     style: TextStyle(
-                        fontSize: 12.0,
+                        fontSize: 14.0,
                         fontStyle: FontStyle.italic,
                         color: Colors.white70),
                   ),

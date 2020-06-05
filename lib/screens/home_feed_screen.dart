@@ -29,16 +29,30 @@ class HomeFeedScreen extends StatelessWidget {
           SizedBox(
             height: 20,
           ),
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: InkWell(
-              child: IconButton(
-                color: ColorPalette.PrimaryColor,
-                onPressed: () => _scaffoldKey.currentState.openDrawer(),
-                icon: Icon(Icons.menu),
-              ),
-            ),
-          ),
+          Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: InkWell(
+                    child: IconButton(
+                      color: ColorPalette.PrimaryColor,
+                      onPressed: () => _scaffoldKey.currentState.openDrawer(),
+                      icon: Icon(Icons.menu),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: InkWell(
+                    child: IconButton(
+                      color: ColorPalette.PrimaryColor,
+                      onPressed: () => _scaffoldKey.currentState.openDrawer(),
+                      icon: Icon(Icons.search),
+                    ),
+                  ),
+                ),
+              ]),
           Padding(
             padding: const EdgeInsets.all(30.0),
             child: Text(

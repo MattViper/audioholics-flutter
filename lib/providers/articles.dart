@@ -85,7 +85,9 @@ class Articles with ChangeNotifier {
       );
       final newArticle = Article(
           title: article.title,
+          slug: json.decode(response.body)['slug'],
           description: article.description,
+          category: article.category,
           id: json.decode(response.body)['id'],
           body: json.decode(response.body)['body'],
           points: json.decode(response.body)['points']);
