@@ -1,3 +1,4 @@
+import 'package:audioholics/providers/articles.dart';
 import 'package:audioholics/providers/auth.dart';
 import 'package:audioholics/shared/color_palette.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,7 +16,36 @@ class HomeFeedScreen extends StatefulWidget {
 }
 
 class _HomeFeedScreenState extends State<HomeFeedScreen> {
+
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey();
+
+  var _isInit = true;
+  var _isLoading = false;
+
+  @override
+  void initState() {
+    // Provider.of<Courses>(context).fetchAndSetProducts(); // WON'T WORK!
+    Future.delayed(Duration.zero).then((_) {
+      Provider.of<Articles>(context, listen: false).fetchArticles();
+    });
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    if (_isInit) {
+      setState(() {
+        _isLoading = true;
+      });
+      Provider.of<Articles>(context).fetchArticles().then((_) {
+        setState(() {
+          _isLoading = false;
+        });
+      });
+    }
+    _isInit = false;
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {

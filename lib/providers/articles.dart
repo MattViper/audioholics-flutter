@@ -10,6 +10,7 @@ import './article.dart';
 
 class Articles with ChangeNotifier {
   List<Article> _articles = [];
+  int _articlesCount = 0;
 
   String authToken;
   int userId;
@@ -42,8 +43,12 @@ class Articles with ChangeNotifier {
           'Content-Type': 'application/json'
         },
       );
-      final extractedData =
-          json.decode(response.body).toList(); //check if unathorized
+      final responseData = json.decode(response.body).toList();
+      final articlesCount = responseData['articlesCount'];
+
+      var extractedData = responseData['articles'];
+
+      //check if unathorized
       if (extractedData == null) {
         return;
       }
@@ -59,6 +64,7 @@ class Articles with ChangeNotifier {
         ));
       });
       _articles = loadedArticles;
+      _articlesCount = articlesCount;
       notifyListeners();
     } catch (error) {
       throw (error);

@@ -1,11 +1,11 @@
 import 'package:flutter/foundation.dart';
 
 class Article with ChangeNotifier {
-  final int id;
-  final String title;
-  final String description;
-  final String announcement;
-  final String content;
+   int id;
+   String title;
+   String description;
+   String announcement;
+   String content;
   //Author
   final int points;
 
@@ -16,4 +16,11 @@ class Article with ChangeNotifier {
       @required this.announcement,
       @required this.content,
       @required this.points});
+
+  Article.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    title = json['title'];
+    description = json['description'];
+    announcement = json['imageArray'].cast<String>();
+  }
 }

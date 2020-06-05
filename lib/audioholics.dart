@@ -18,7 +18,7 @@ class Audioholics extends StatelessWidget with SecureStorageMixin {
           ChangeNotifierProxyProvider<Auth, Articles>(
               create: (ctx) => Articles(),
               update: (context, auth, articles) => articles.update(
-                  auth.token, auth.userId, articles == null ? [] : articles))
+                  auth.token, auth.userId, articles == null ? [] : articles.articles))
         ],
         child: Consumer<Auth>(
             builder: (ctx, auth, _) => MaterialApp(
