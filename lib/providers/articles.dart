@@ -17,6 +17,10 @@ class Articles with ChangeNotifier {
 
   Articles();
 
+  int get articlesCount {
+    return _articlesCount;
+  }
+
   List<Article> get articles {
     return [..._articles];
   }
@@ -43,7 +47,7 @@ class Articles with ChangeNotifier {
           'Content-Type': 'application/json'
         },
       );
-      final responseData = json.decode(response.body).toList();
+      final responseData = json.decode(response.body);
       final articlesCount = responseData['articlesCount'];
 
       var extractedData = responseData['articles'];
@@ -54,14 +58,7 @@ class Articles with ChangeNotifier {
       }
       final List<Article> loadedArticles = [];
       extractedData.forEach((articleData) {
-        loadedArticles.add(Article(
-          id: articleData['id'],
-          title: articleData['title'],
-          description: articleData['description'],
-          announcement: articleData['announcement'],
-          content: articleData['content'],
-          points: articleData['points'],
-        ));
+        loadedArticles.add(Article.fromJson(articleData));
       });
       _articles = loadedArticles;
       _articlesCount = articlesCount;
@@ -83,15 +80,14 @@ class Articles with ChangeNotifier {
         body: json.encode({
           'title': article.title,
           'description': article.description,
-          'announcement': article.announcement,
+          'body': article.body,
         }),
       );
       final newArticle = Article(
           title: article.title,
           description: article.description,
-          announcement: article.announcement,
           id: json.decode(response.body)['id'],
-          content: json.decode(response.body)['content'],
+          body: json.decode(response.body)['body'],
           points: json.decode(response.body)['points']);
       _articles.add(newArticle);
       // _Articles.insert(0, newArticle); // at the start of the list
@@ -114,7 +110,7 @@ class Articles with ChangeNotifier {
           body: json.encode({
             'title': newArticle.title,
             'description': newArticle.description,
-            'announcement': newArticle.announcement,
+            'body': newArticle.body,
           }));
       _articles[articleIndex] = newArticle;
       notifyListeners();

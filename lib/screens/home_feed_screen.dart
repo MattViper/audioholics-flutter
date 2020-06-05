@@ -1,50 +1,18 @@
 import 'package:audioholics/providers/articles.dart';
 import 'package:audioholics/providers/auth.dart';
 import 'package:audioholics/shared/color_palette.dart';
+import 'package:audioholics/widgets/article_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:provider/provider.dart';
 
-class HomeFeedScreen extends StatefulWidget {
-  const HomeFeedScreen({Key key}) : super(key: key);
-
+class HomeFeedScreen extends StatelessWidget {
   static const routeName = '/home';
-
-  @override
-  _HomeFeedScreenState createState() => _HomeFeedScreenState();
-}
-
-class _HomeFeedScreenState extends State<HomeFeedScreen> {
-
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey();
 
-  var _isInit = true;
-  var _isLoading = false;
-
-  @override
-  void initState() {
-    // Provider.of<Courses>(context).fetchAndSetProducts(); // WON'T WORK!
-    Future.delayed(Duration.zero).then((_) {
-      Provider.of<Articles>(context, listen: false).fetchArticles();
-    });
-    super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    if (_isInit) {
-      setState(() {
-        _isLoading = true;
-      });
-      Provider.of<Articles>(context).fetchArticles().then((_) {
-        setState(() {
-          _isLoading = false;
-        });
-      });
-    }
-    _isInit = false;
-    super.didChangeDependencies();
+  Future<void> _refreshArticles(BuildContext context) async {
+    await Provider.of<Articles>(context, listen: false).fetchArticles();
   }
 
   @override
@@ -110,29 +78,25 @@ class _HomeFeedScreenState extends State<HomeFeedScreen> {
                   color: ColorPalette.PrimaryColor),
             ),
           ),
-          new Swiper(
-            itemCount: 10,
-            itemWidth: 300.0,
-            itemHeight: 400.0,
-            layout: SwiperLayout.STACK,
-            itemBuilder: (BuildContext context, int index) {
-              return new Card(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0)),
-                  color: ColorPalette.PrimaryColor,
-                  child: Padding(
-                    padding: const EdgeInsets.all(30.0),
-                    child: Text(
-                      'Hello there',
-                      style: TextStyle(
-                          fontSize: 24.0,
-                          fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.w700,
-                          color: Colors.white),
-                    ),
-                  ));
-            },
-          ),
+          FutureBuilder(
+              future: _refreshArticles(context),
+              builder: (BuildContext context, AsyncSnapshot snapshot) =>
+                  snapshot.connectionState == ConnectionState.waiting
+                      ? Center(child: CircularProgressIndicator())
+                      : RefreshIndicator(
+                          child: Consumer<Articles>(
+                            builder: (ctx, articlesData, _) => Swiper(
+                              itemCount: articlesData.articlesCount,
+                              itemWidth: 300.0,
+                              itemHeight: 400.0,
+                              layout: SwiperLayout.STACK,
+                              itemBuilder: (BuildContext context, int index) {
+                                return ArticleCard(
+                                    articlesData.articles[index]);
+                              },
+                            ),
+                          ),
+                          onRefresh: () => _refreshArticles(context))),
         ]),
       ),
     );
