@@ -1,6 +1,7 @@
 import 'package:audioholics/providers/articles.dart';
 import 'package:audioholics/providers/auth.dart';
 import 'package:audioholics/shared/color_palette.dart';
+import 'package:audioholics/widgets/app_drawer.dart';
 import 'package:audioholics/widgets/article_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,36 +20,7 @@ class HomeFeedScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return new Scaffold(
       key: _scaffoldKey,
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            SizedBox(
-              height: 50,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(
-                'Hello there!',
-                style: TextStyle(
-                    color: ColorPalette.PrimaryColor,
-                    fontSize: 24.0,
-                    fontWeight: FontWeight.w700),
-              ),
-            ),
-            ListTile(
-              title: Text("Home"),
-            ),
-            ListTile(
-              title: Text("Profile"),
-            ),
-            ListTile(
-              title: Text("Logout"),
-              onTap: () => Provider.of<Auth>(context, listen: false).logout(),
-            )
-          ],
-        ),
-      ),
+      drawer: AppDrawer(),
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
