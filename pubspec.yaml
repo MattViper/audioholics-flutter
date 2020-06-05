@@ -28,6 +28,7 @@ dependencies:
   google_fonts: ^1.1.0
   font_awesome_flutter: ^8.8.1
   animations: ^1.0.0+5
+  flutter_swiper: ^1.1.6
 
 
 

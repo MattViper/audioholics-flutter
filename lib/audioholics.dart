@@ -1,24 +1,39 @@
+import 'package:audioholics/models/secure_storage.dart';
+import 'package:audioholics/providers/articles.dart';
+import 'package:audioholics/providers/auth.dart';
+import 'package:audioholics/screens/home_feed_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:provider/provider.dart';
 
 import 'screens/sign_in_screen.dart';
 
-class Audioholics extends StatelessWidget {
-    final _storage = FlutterSecureStorage();
+class Audioholics extends StatelessWidget with SecureStorageMixin {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'audioholics',
-      theme: ThemeData(
-        fontFamily: 'Montserrat',
-        primaryColor: Color(0xff6c63fF),
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: SignInScreen(),
-    );
+    return MultiProvider(
+        providers: [
+          ChangeNotifierProvider.value(value: Auth()),
+          ChangeNotifierProxyProvider<Auth, Articles>(
+              create: (ctx) => Articles(),
+              update: (context, auth, articles) => articles.update(
+                  auth.token, auth.userId, articles == null ? [] : articles))
+        ],
+        child: Consumer<Auth>(
+            builder: (ctx, auth, _) => MaterialApp(
+                  title: 'audioholics',
+                  theme: ThemeData(
+                    primarySwatch: Colors.deepPurple,
+                    accentColor: Colors.indigo,
+                    fontFamily: 'Montserrat',
+                  ),
+                  home: auth.isAuth
+                      ? HomeFeedScreen()
+                      : FutureBuilder(
+                          future: auth.tryAutoLogin(),
+                          builder: (ctx, authResultSnapshot) => SignInScreen(),
+                        ),
+                )));
   }
 }
-
-
-
