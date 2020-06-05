@@ -26,12 +26,15 @@ class AppDrawer extends StatelessWidget {
             ),
           ),
           ListTile(
+            leading: Icon(Icons.home),
             title: Text("Home"),
           ),
           ListTile(
+            leading: Icon(Icons.person),
             title: Text("Profile"),
           ),
           ListTile(
+            leading: Icon(Icons.exit_to_app),
             title: Text("Logout"),
             onTap: () => Provider.of<Auth>(context, listen: false).logout(),
           )
