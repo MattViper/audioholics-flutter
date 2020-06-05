@@ -48,7 +48,7 @@ class _HomeFeedScreenState extends State<HomeFeedScreen> {
                 color: ColorPalette.PrimaryColor,
                 child: Padding(
                   padding: const EdgeInsets.all(30.0),
-                  child: Text('Hello there',style: TextStyle(fontSize: 16.0, fontFamily: 'Montserrat', fontWeight: FontWeight.w700, color: Colors.white),),
+                  child: Text('Hello there',style: TextStyle(fontSize: 24.0, fontFamily: 'Montserrat', fontWeight: FontWeight.w700, color: Colors.white),),
                 )
               );
             },
