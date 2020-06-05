@@ -56,7 +56,7 @@ class _SignInScreenState extends State<SignInScreen>
     setState(() {
       _isLoading = false;
     });
-    Navigator.of(context).pop();
+//    Navigator.of(context).pop();
   }
 
   void _showErrorDialog(String message) {
