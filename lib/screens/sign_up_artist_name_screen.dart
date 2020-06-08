@@ -58,7 +58,7 @@ class SignUpArtistNameScreen extends StatelessWidget {
               height: 50,
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(200, 100, 10, 0),
+              padding: const EdgeInsets.fromLTRB(200, 100, 20, 0),
               child: FlatButton(
                 onPressed: () {},
                 child: Text(
