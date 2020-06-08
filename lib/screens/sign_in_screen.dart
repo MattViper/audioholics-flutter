@@ -2,7 +2,10 @@ import 'dart:ui';
 
 import 'package:audioholics/models/http_exception.dart';
 import 'package:audioholics/providers/auth.dart';
+import 'package:audioholics/screens/sign_up_artist_name_screen.dart';
 import 'package:audioholics/shared/color_palette.dart';
+import 'package:audioholics/widgets/app_divider.dart';
+import 'package:audioholics/widgets/social_sign_in.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
@@ -14,14 +17,10 @@ String emailFieldValidator(String value) {
   return (!regex.hasMatch(value)) ? 'Not a valid email' : null;
 }
 
-
-class PasswordFieldValidator{
-  static String validate(String value)
-  {
-    return (value.isEmpty || value.length < 8)?  'Password is too short' : null;
-
+class PasswordFieldValidator {
+  static String validate(String value) {
+    return (value.isEmpty || value.length < 8) ? 'Password is too short' : null;
   }
-
 }
 
 class SignInScreen extends StatefulWidget {
@@ -40,7 +39,6 @@ class _SignInScreenState extends State<SignInScreen>
   var _password;
 
   Future<void> _submit() async {
-
     try {
       await Provider.of<Auth>(context, listen: false).login(_email, _password);
     } on HttpException catch (error) {
@@ -94,13 +92,26 @@ class _SignInScreenState extends State<SignInScreen>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           TextFormField(
-            keyboardType:  isPassword == false ? TextInputType.emailAddress : TextInputType.text,
-            validator: isPassword == true ? PasswordFieldValidator.validate : emailFieldValidator,
+            keyboardType: isPassword == false
+                ? TextInputType.emailAddress
+                : TextInputType.text,
+            validator: isPassword == true
+                ? PasswordFieldValidator.validate
+                : emailFieldValidator,
             obscureText: isPassword,
             decoration: InputDecoration(
+              labelStyle: TextStyle(color: Colors.grey),
               labelText: title,
               border: OutlineInputBorder(
-                borderSide: BorderSide(color: Color(0xff6c63fF)),
+                borderSide: BorderSide(
+                  color: Colors.grey,
+                ),
+                borderRadius: BorderRadius.circular(100.0),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: ColorPalette.PrimaryColor,
+                ),
                 borderRadius: BorderRadius.circular(100.0),
               ),
             ),
@@ -109,7 +120,6 @@ class _SignInScreenState extends State<SignInScreen>
             },
             onSaved: (String value) {
               isPassword == true ? _password = value : _email = value;
-
             },
           )
         ],
@@ -140,7 +150,7 @@ class _SignInScreenState extends State<SignInScreen>
           _submit();
         },
         child: Text(
-          'SIGN IN',
+          'Sign In'.toUpperCase(),
           style: TextStyle(
               fontSize: 20, color: Colors.white, fontWeight: FontWeight.w700),
         ),
@@ -148,89 +158,20 @@ class _SignInScreenState extends State<SignInScreen>
     );
   }
 
-  Widget _divider() {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 10),
-      child: Row(
-        children: <Widget>[
-          SizedBox(
-            width: 20,
-          ),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              child: Divider(
-                thickness: 1,
-              ),
-            ),
-          ),
-          Text('or'),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              child: Divider(
-                thickness: 1,
-              ),
-            ),
-          ),
-          SizedBox(
-            width: 20,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _facebookButton() {
-    return Container(
-      height: 100,
-      width: 75,
-      child: IconButton(
-          icon: FaIcon(
-            FontAwesomeIcons.facebookF,
-            color: Colors.blue,
-          ),
-          onPressed: null),
-    );
-  }
-
-  Widget _googleButton() {
-    return Container(
-      height: 100,
-      width: 75,
-      child: IconButton(
-        icon: FaIcon(
-          FontAwesomeIcons.google,
-          color: Colors.red,
+  Widget _signUpRedirection() {
+    return Padding(
+      padding: const EdgeInsets.all(40.0),
+      child: FlatButton(
+        color: Colors.transparent,
+        child: Text(
+          'No account? Sign Up!',
+          style: TextStyle(
+              color: ColorPalette.PrimaryColor,
+              fontSize: 16.0,
+              fontWeight: FontWeight.w700),
         ),
-        onPressed: null,
-      ),
-    );
-  }
-
-  Widget _twitterButton() {
-    return Container(
-      height: 100,
-      width: 75,
-      child: IconButton(
-        icon: FaIcon(
-          FontAwesomeIcons.twitter,
-          color: Colors.lightBlue,
-        ),
-        onPressed: null,
-      ),
-    );
-  }
-
-  Widget _socialSignIn() {
-    return Center(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          _facebookButton(),
-          _googleButton(),
-          _twitterButton()
-        ],
+        onPressed: () =>
+            Navigator.of(context).pushNamed(SignUpArtistNameScreen.routeName),
       ),
     );
   }
@@ -267,14 +208,16 @@ class _SignInScreenState extends State<SignInScreen>
                     alignment: Alignment.centerRight,
                     child: Text('Forgot Password ?',
                         style: TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.w700)),
+                            color: ColorPalette.PrimaryColor,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w700)),
                   ),
-                  _divider(),
-                  _socialSignIn(),
-                  Expanded(
-                    flex: 2,
-                    child: SizedBox(),
+                  AppDivider(),
+                  SocialSignIn(),
+                  SizedBox(
+                    height: 10,
                   ),
+                  _signUpRedirection(),
                 ],
               ),
             ),

@@ -2,14 +2,15 @@ import 'package:audioholics/models/secure_storage.dart';
 import 'package:audioholics/providers/articles.dart';
 import 'package:audioholics/providers/auth.dart';
 import 'package:audioholics/screens/home_feed_screen.dart';
+import 'package:audioholics/screens/sign_up_artist_name_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 
+import 'routes.dart';
 import 'screens/sign_in_screen.dart';
 
 class Audioholics extends StatelessWidget with SecureStorageMixin {
-
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -17,8 +18,8 @@ class Audioholics extends StatelessWidget with SecureStorageMixin {
           ChangeNotifierProvider.value(value: Auth()),
           ChangeNotifierProxyProvider<Auth, Articles>(
               create: (ctx) => Articles(),
-              update: (context, auth, articles) => articles.update(
-                  auth.token, auth.userId, articles == null ? [] : articles.articles))
+              update: (context, auth, articles) => articles.update(auth.token,
+                  auth.userId, articles == null ? [] : articles.articles))
         ],
         child: Consumer<Auth>(
             builder: (ctx, auth, _) => MaterialApp(
@@ -34,6 +35,7 @@ class Audioholics extends StatelessWidget with SecureStorageMixin {
                           future: auth.tryAutoLogin(),
                           builder: (ctx, authResultSnapshot) => SignInScreen(),
                         ),
+                  routes: routes
                 )));
   }
 }
