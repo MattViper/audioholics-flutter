@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:audioholics/models/http_exception.dart';
 import 'package:audioholics/providers/auth.dart';
-import 'package:audioholics/screens/sign_up_artist_name_screen.dart';
+import 'file:///C:/Users/Matt/DEViper/audioholics_flutter/lib/screens/sign_up/sign_up_artist_name_screen.dart';
 import 'package:audioholics/shared/color_palette.dart';
 import 'package:audioholics/widgets/app_divider.dart';
 import 'package:audioholics/widgets/social_sign_in.dart';

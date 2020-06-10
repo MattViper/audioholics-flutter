@@ -1,9 +1,18 @@
+import 'package:audioholics/models/sign_up_arguments.dart';
+import 'package:audioholics/screens/sign_up/sign_up_email_screen.dart';
 import 'package:audioholics/shared/color_palette.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class SignUpArtistNameScreen extends StatelessWidget {
+class SignUpArtistNameScreen extends StatefulWidget {
   static const routeName = '/signUp-1';
+
+  @override
+  _SignUpArtistNameScreenState createState() => _SignUpArtistNameScreenState();
+}
+
+class _SignUpArtistNameScreenState extends State<SignUpArtistNameScreen> {
+  String artistName;
 
   @override
   Widget build(BuildContext context) {
@@ -16,8 +25,7 @@ class SignUpArtistNameScreen extends StatelessWidget {
                 colors: [Colors.indigoAccent, ColorPalette.PrimaryColor],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight)),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+        child: ListView(
           children: <Widget>[
             SizedBox(
               height: 300,
@@ -35,6 +43,7 @@ class SignUpArtistNameScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(30.0),
               child: TextFormField(
+                onChanged: (value) => artistName = value,
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 24.0,
@@ -58,9 +67,12 @@ class SignUpArtistNameScreen extends StatelessWidget {
               height: 50,
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(200, 100, 20, 0),
+              padding: const EdgeInsets.fromLTRB(200, 100, 0, 0),
               child: FlatButton(
-                onPressed: () {},
+                onPressed: () => Navigator.of(context).pushNamed(
+                  SignUpEmailScreen.routeName,
+                  arguments: SignUpArguments(artistName, ''),
+                ),
                 child: Text(
                   'Continue',
                   textAlign: TextAlign.right,
