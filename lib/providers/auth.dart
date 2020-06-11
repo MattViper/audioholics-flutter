@@ -14,6 +14,9 @@ class Auth with ChangeNotifier, SecureStorageMixin {
   int _userId;
   Timer _authTimer;
 
+  bool _artistNameExists;
+  bool _emailExists;
+
   String _role;
 
   Map<String, dynamic> _decodedToken;
@@ -41,6 +44,14 @@ class Auth with ChangeNotifier, SecureStorageMixin {
 
   String get role {
     return _role;
+  }
+
+  bool get artistNameExists {
+    return _artistNameExists;
+  }
+
+  bool get emailExists {
+    return _emailExists;
   }
 
   Future<void> login(String email, String password) async {
@@ -148,5 +159,44 @@ class Auth with ChangeNotifier, SecureStorageMixin {
     }
     final timeToExpiry = _expiryDate.difference(DateTime.now()).inSeconds;
     _authTimer = Timer(Duration(seconds: timeToExpiry), logout);
+  }
+
+  Future<void> checkArtistName(String artistName) async {
+    final url = Constants.API_URL + "auth/checkartistname";
+    try {
+      final response = await http.post(url,
+          headers: {'Content-Type': 'application/json'},
+          body: json.encode(
+            {
+              'artistName': artistName,
+            },
+          ));
+
+      bool artistNameExists = json.decode(response.body);
+      _artistNameExists = artistNameExists;
+
+      notifyListeners();
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  Future<bool> checkEmail(String email) async {
+    final url = Constants.API_URL + "auth/checkemail";
+    try {
+      final response = await http.post(url,
+          headers: {'Content-Type': 'application/json'},
+          body: json.encode(
+            {
+              'email': email,
+            },
+          ));
+
+      bool emailExists = json.decode(response.body);
+      _emailExists = emailExists;
+      notifyListeners();
+    } catch (error) {
+      throw error;
+    }
   }
 }
