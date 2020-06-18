@@ -1,6 +1,9 @@
 import 'package:audioholics/models/sign_up_arguments.dart';
+import 'package:audioholics/providers/auth.dart';
+import 'package:audioholics/screens/sign_in_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SignUpPasswordScreen extends StatefulWidget {
   static const routeName = '/signUp-3';
@@ -83,8 +86,15 @@ class _SignUpPasswordScreenState extends State<SignUpPasswordScreen> {
             Padding(
               padding: const EdgeInsets.fromLTRB(200, 75, 0, 0),
               child: FlatButton(
-                onPressed: () => Navigator.of(context)
-                    .pushNamed(SignUpPasswordScreen.routeName),
+                onPressed: () {
+                  try {
+                    Provider.of<Auth>(context, listen: false)
+                        .signup(_email, password, _artistName);
+                  } catch (error) {
+                    throw error;
+                  }
+                  Navigator.of(context).popAndPushNamed(SignInScreen.routeName);
+                },
                 child: Text(
                   'Create account',
                   textAlign: TextAlign.right,

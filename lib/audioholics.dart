@@ -2,6 +2,7 @@ import 'package:audioholics/models/secure_storage.dart';
 import 'package:audioholics/providers/articles.dart';
 import 'package:audioholics/providers/auth.dart';
 import 'package:audioholics/screens/home_feed_screen.dart';
+import 'package:audioholics/shared/color_palette.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -21,19 +22,18 @@ class Audioholics extends StatelessWidget with SecureStorageMixin {
         ],
         child: Consumer<Auth>(
             builder: (ctx, auth, _) => MaterialApp(
-                  title: 'audioholics',
-                  theme: ThemeData(
-                    primarySwatch: Colors.deepPurple,
-                    accentColor: Colors.indigo,
-                    fontFamily: 'Montserrat',
-                  ),
-                  home: auth.isAuth
-                      ? HomeFeedScreen()
-                      : FutureBuilder(
-                          future: auth.tryAutoLogin(),
-                          builder: (ctx, authResultSnapshot) => SignInScreen(),
-                        ),
-                  routes: routes
-                )));
+                title: 'audioholics',
+                theme: ThemeData(
+                  primarySwatch: Colors.deepPurple,
+                  accentColor: ColorPalette.PrimaryColor,
+                  fontFamily: 'Montserrat',
+                ),
+                home: auth.isAuth
+                    ? HomeFeedScreen()
+                    : FutureBuilder(
+                        future: auth.tryAutoLogin(),
+                        builder: (ctx, authResultSnapshot) => SignInScreen(),
+                      ),
+                routes: routes)));
   }
 }

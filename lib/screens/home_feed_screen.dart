@@ -1,5 +1,4 @@
 import 'package:audioholics/providers/articles.dart';
-import 'package:audioholics/providers/auth.dart';
 import 'package:audioholics/shared/color_palette.dart';
 import 'package:audioholics/widgets/app_drawer.dart';
 import 'package:audioholics/widgets/article_card.dart';
@@ -71,18 +70,31 @@ class HomeFeedScreen extends StatelessWidget {
                       ? Center(child: CircularProgressIndicator())
                       : RefreshIndicator(
                           child: Consumer<Articles>(
-                            builder: (ctx, articlesData, _) => Swiper(
-                              itemCount: articlesData.articlesCount,
-                              itemWidth: 300.0,
-                              itemHeight: 400.0,
-                              layout: SwiperLayout.STACK,
-                              itemBuilder: (BuildContext context, int index) {
-                                return ArticleCard(
-                                    articlesData.articles[index]);
-                              },
-                            ),
+                            builder: (ctx, articlesData, _) => articlesData
+                                        .articlesCount >
+                                    0
+                                ? Swiper(
+                                    itemCount: articlesData.articlesCount,
+                                    itemWidth: 300.0,
+                                    itemHeight: 400.0,
+                                    layout: SwiperLayout.STACK,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return ArticleCard(
+                                          articlesData.articles[index]);
+                                    },
+                                  )
+                                : Center(child: CircularProgressIndicator()),
                           ),
                           onRefresh: () => _refreshArticles(context))),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(325, 400, 0, 0),
+            child: FloatingActionButton(
+              child: Icon(Icons.add),
+              backgroundColor: ColorPalette.PrimaryColor,
+              onPressed: () {},
+            ),
+          )
         ]),
       ),
     );
