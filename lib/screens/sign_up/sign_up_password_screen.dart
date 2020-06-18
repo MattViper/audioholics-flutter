@@ -1,5 +1,4 @@
 import 'package:audioholics/models/sign_up_arguments.dart';
-import 'package:audioholics/shared/color_palette.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -82,7 +81,7 @@ class _SignUpPasswordScreenState extends State<SignUpPasswordScreen> {
               height: 50,
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(200, 100, 0, 0),
+              padding: const EdgeInsets.fromLTRB(200, 75, 0, 0),
               child: FlatButton(
                 onPressed: () => Navigator.of(context)
                     .pushNamed(SignUpPasswordScreen.routeName),
@@ -90,7 +89,7 @@ class _SignUpPasswordScreenState extends State<SignUpPasswordScreen> {
                   'Create account',
                   textAlign: TextAlign.right,
                   style: TextStyle(
-                      fontSize: 24.0,
+                      fontSize: 20.0,
                       fontWeight: FontWeight.w700,
                       color: Colors.white),
                 ),

@@ -1,10 +1,11 @@
-import 'dart:convert';
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:audioholics/helpers/jwt_decoder.dart';
 import 'package:audioholics/models/secure_storage.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
+
 import '../config/constants.dart';
 import '../models/http_exception.dart';
 

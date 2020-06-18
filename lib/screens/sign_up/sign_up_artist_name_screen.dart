@@ -19,6 +19,9 @@ class _SignUpArtistNameScreenState extends State<SignUpArtistNameScreen> {
   final _formKey = GlobalKey<FormState>();
 
   String _validateArtistName(String artistName) {
+    if (artistName.isEmpty) {
+      return 'Artist name cannot be empty!';
+    }
     if (Provider.of<Auth>(context, listen: false).artistNameExists) {
       return 'Artist name already exists!';
     } else
@@ -64,7 +67,8 @@ class _SignUpArtistNameScreenState extends State<SignUpArtistNameScreen> {
                       fontStyle: FontStyle.italic),
                   cursorColor: Colors.white,
                   decoration: InputDecoration(
-                      errorStyle: TextStyle(color: Colors.amber, fontSize: 16.0),
+                      errorStyle:
+                          TextStyle(color: Colors.amber, fontSize: 16.0),
                       labelText: 'Your artist name',
                       labelStyle:
                           TextStyle(color: Colors.white70, fontSize: 18.0),
@@ -106,7 +110,7 @@ class _SignUpArtistNameScreenState extends State<SignUpArtistNameScreen> {
                     'Continue',
                     textAlign: TextAlign.right,
                     style: TextStyle(
-                        fontSize: 24.0,
+                        fontSize: 20.0,
                         fontWeight: FontWeight.w700,
                         color: Colors.white),
                   ),

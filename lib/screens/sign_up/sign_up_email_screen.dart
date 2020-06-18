@@ -91,7 +91,7 @@ class _SignUpEmailScreenState extends State<SignUpEmailScreen> {
                   'Set password',
                   textAlign: TextAlign.right,
                   style: TextStyle(
-                      fontSize: 24.0,
+                      fontSize: 20.0,
                       fontWeight: FontWeight.w700,
                       color: Colors.white),
                 ),
