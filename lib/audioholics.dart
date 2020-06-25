@@ -9,6 +9,9 @@ import 'package:provider/provider.dart';
 import 'routes.dart';
 import 'screens/sign_in_screen.dart';
 
+final routeObserver = RouteObserver<PageRoute>();
+final duration = const Duration(milliseconds: 200);
+
 class Audioholics extends StatelessWidget with SecureStorageMixin {
   @override
   Widget build(BuildContext context) {
@@ -34,6 +37,7 @@ class Audioholics extends StatelessWidget with SecureStorageMixin {
                         future: auth.tryAutoLogin(),
                         builder: (ctx, authResultSnapshot) => SignInScreen(),
                       ),
+                navigatorObservers: [routeObserver],
                 routes: routes)));
   }
 }

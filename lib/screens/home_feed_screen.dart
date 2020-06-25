@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:audioholics/providers/articles.dart';
+import 'package:audioholics/screens/sign_up/sign_up_artist_name_screen.dart';
 import 'package:audioholics/shared/color_palette.dart';
 import 'package:audioholics/widgets/app_drawer.dart';
 import 'package:audioholics/widgets/article_card.dart';
@@ -7,9 +10,39 @@ import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:provider/provider.dart';
 
-class HomeFeedScreen extends StatelessWidget {
+import '../audioholics.dart';
+
+class HomeFeedScreen extends StatefulWidget {
   static const routeName = '/home';
+
+  @override
+  _HomeFeedScreenState createState() => _HomeFeedScreenState();
+}
+
+class _HomeFeedScreenState extends State<HomeFeedScreen> with RouteAware {
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey();
+
+  GlobalKey _fabKey = GlobalKey();
+  bool _fabVisible = true;
+
+  @override
+  didChangeDependencies() {
+    super.didChangeDependencies();
+    routeObserver.subscribe(this, ModalRoute.of(context));
+  }
+
+  @override
+  dispose() {
+    super.dispose();
+    routeObserver.unsubscribe(this);
+  }
+
+  @override
+  didPopNext() {
+    Timer(duration, () {
+      setState(() => _fabVisible = true);
+    });
+  }
 
   Future<void> _refreshArticles(BuildContext context) async {
     await Provider.of<Articles>(context, listen: false).fetchArticles();
@@ -89,14 +122,84 @@ class HomeFeedScreen extends StatelessWidget {
                           onRefresh: () => _refreshArticles(context))),
           Padding(
             padding: const EdgeInsets.fromLTRB(325, 400, 0, 0),
-            child: FloatingActionButton(
-              child: Icon(Icons.add),
-              backgroundColor: ColorPalette.PrimaryColor,
-              onPressed: () {},
-            ),
+            child: _buildFAB(context, key: _fabKey),
           )
         ]),
       ),
+    );
+  }
+
+  Widget _buildFAB(context, {key}) => FloatingActionButton(
+        elevation: 0,
+        backgroundColor: ColorPalette.PrimaryColor,
+        key: key,
+        onPressed: () => _onFabTap(context),
+        child: Icon(Icons.add),
+      );
+
+  _onFabTap(BuildContext context) {
+    setState(() => _fabVisible = false);
+
+    final RenderBox fabRenderBox = _fabKey.currentContext.findRenderObject();
+    final fabSize = fabRenderBox.size;
+    final fabOffset = fabRenderBox.localToGlobal(Offset.zero);
+
+    Navigator.of(context).push(PageRouteBuilder(
+      transitionDuration: duration,
+      pageBuilder: (BuildContext context, Animation<double> animation,
+              Animation<double> secondaryAnimation) =>
+          SignUpArtistNameScreen(),
+      transitionsBuilder: (BuildContext context, Animation<double> animation,
+              Animation<double> secondaryAnimation, Widget child) =>
+          _buildTransition(child, animation, fabSize, fabOffset),
+    ));
+  }
+
+  Widget _buildTransition(Widget page, Animation<double> animation,
+      Size fabSize, Offset fabOffset) {
+    if (animation.value == 1) return page;
+
+    final borderTween = BorderRadiusTween(
+      begin: BorderRadius.circular(fabSize.width / 2),
+      end: BorderRadius.circular(0.0),
+    );
+    final sizeTween =
+        SizeTween(begin: fabSize, end: MediaQuery.of(context).size);
+    final offsetTween = Tween<Offset>(
+      begin: fabOffset,
+      end: Offset.zero,
+    );
+
+    final easeInAnimation =
+        CurvedAnimation(parent: animation, curve: Curves.easeIn);
+    final easeAnimation =
+        CurvedAnimation(parent: animation, curve: Curves.easeOut);
+
+    final radius = borderTween.evaluate(easeInAnimation);
+    final offset = offsetTween.evaluate(animation);
+    final size = sizeTween.evaluate(easeInAnimation);
+
+    final transitionFab = Opacity(
+      opacity: 1 - easeAnimation.value,
+      child: _buildFAB(context),
+    );
+
+    Widget positionedClippedChild(Widget child) => Positioned(
+          width: size.width,
+          height: size.height,
+          left: offset.dx,
+          top: offset.dy,
+          child: ClipRRect(
+            borderRadius: radius,
+            child: child,
+          ),
+        );
+
+    return Stack(
+      children: <Widget>[
+        positionedClippedChild(page),
+        positionedClippedChild(transitionFab),
+      ],
     );
   }
 }
