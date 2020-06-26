@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:audioholics/providers/articles.dart';
-import 'package:audioholics/screens/sign_up/sign_up_artist_name_screen.dart';
+import 'package:audioholics/screens/add_article/add_article_meta_screen.dart';
 import 'package:audioholics/shared/color_palette.dart';
 import 'package:audioholics/widgets/app_drawer.dart';
 import 'package:audioholics/widgets/article_card.dart';
@@ -148,7 +148,7 @@ class _HomeFeedScreenState extends State<HomeFeedScreen> with RouteAware {
       transitionDuration: duration,
       pageBuilder: (BuildContext context, Animation<double> animation,
               Animation<double> secondaryAnimation) =>
-          SignUpArtistNameScreen(),
+          AddArticleMetaScreen(),
       transitionsBuilder: (BuildContext context, Animation<double> animation,
               Animation<double> secondaryAnimation, Widget child) =>
           _buildTransition(child, animation, fabSize, fabOffset),
