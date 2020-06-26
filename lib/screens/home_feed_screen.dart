@@ -121,7 +121,7 @@ class _HomeFeedScreenState extends State<HomeFeedScreen> with RouteAware {
                           ),
                           onRefresh: () => _refreshArticles(context))),
           Padding(
-            padding: const EdgeInsets.fromLTRB(325, 400, 0, 0),
+            padding: const EdgeInsets.fromLTRB(325, 100, 0, 0),
             child: _buildFAB(context, key: _fabKey),
           )
         ]),

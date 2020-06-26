@@ -12,8 +12,8 @@ class ArticleCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      shadowColor: ColorPalette.PrimaryColor,
-      elevation: 10.0,
+        shadowColor: ColorPalette.PrimaryColor,
+        elevation: 10.0,
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
         color: ColorPalette.PrimaryColor,
@@ -34,7 +34,7 @@ class ArticleCard extends StatelessWidget {
                         style: TextStyle(
                             color: ColorPalette.PrimaryColor,
                             fontStyle: FontStyle.italic,
-                            fontSize: 14.0),
+                            fontSize: 12.0),
                       ),
                       onPressed: () {},
                     )),
@@ -44,7 +44,7 @@ class ArticleCard extends StatelessWidget {
                     '${_article.created.day}-${_article.created.month}-${_article.created.year}',
                     softWrap: true,
                     style: TextStyle(
-                        fontSize: 14.0,
+                        fontSize: 12.0,
                         fontStyle: FontStyle.italic,
                         color: Colors.white70),
                   ),

@@ -5,8 +5,8 @@ import 'package:audioholics/providers/article.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import '../config/constants.dart';
 import './article.dart';
+import '../config/constants.dart';
 
 class Articles with ChangeNotifier {
   List<Article> _articles = [];
@@ -80,6 +80,7 @@ class Articles with ChangeNotifier {
         body: json.encode({
           'title': article.title,
           'description': article.description,
+          'category': article.category,
           'body': article.body,
         }),
       );

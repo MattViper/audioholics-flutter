@@ -12,6 +12,11 @@ class Article with ChangeNotifier {
 
   //Author
   int points;
+  Article.add(
+      {@required this.title,
+      @required this.description,
+      @required this.category,
+      @required this.body});
 
   Article(
       {this.id,
