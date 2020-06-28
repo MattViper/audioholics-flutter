@@ -2,13 +2,16 @@ import 'package:audioholics/providers/article.dart';
 import 'package:audioholics/shared/color_palette.dart';
 import 'package:flutter/material.dart';
 
-class ArticleCard extends StatelessWidget {
-  Article _article;
+class ArticleCard extends StatefulWidget {
+  final Article _article;
 
-  ArticleCard(Article article) {
-    _article = article;
-  }
+  ArticleCard(this._article);
 
+  @override
+  _ArticleCardState createState() => _ArticleCardState();
+}
+
+class _ArticleCardState extends State<ArticleCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -30,7 +33,7 @@ class ArticleCard extends StatelessWidget {
                       color: Colors.white,
                       shape: StadiumBorder(),
                       child: Text(
-                        _article.category.toUpperCase(),
+                        widget._article.category.toUpperCase(),
                         style: TextStyle(
                             color: ColorPalette.PrimaryColor,
                             fontStyle: FontStyle.italic,
@@ -41,7 +44,7 @@ class ArticleCard extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Text(
-                    '${_article.created.day}-${_article.created.month}-${_article.created.year}',
+                    '${widget._article.created.day}-${widget._article.created.month}-${widget._article.created.year}',
                     softWrap: true,
                     style: TextStyle(
                         fontSize: 12.0,
@@ -54,7 +57,7 @@ class ArticleCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(30.0),
               child: Text(
-                _article.title,
+                widget._article.title,
                 style: TextStyle(
                     fontSize: 24.0,
                     fontFamily: 'Montserrat',

@@ -106,7 +106,7 @@ class _AddArticleBodyScreenState extends State<AddArticleBodyScreen> {
   }
 
   NotusDocument _loadDocument() {
-    final Delta delta = Delta()..insert('Write new article\n');
+    final Delta delta = Delta()..insert('\n');
     return NotusDocument.fromDelta(delta);
   }
 }
