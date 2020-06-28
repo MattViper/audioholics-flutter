@@ -30,6 +30,12 @@ class Audioholics extends StatelessWidget with SecureStorageMixin {
                   primarySwatch: Colors.deepPurple,
                   accentColor: ColorPalette.PrimaryColor,
                   fontFamily: 'Montserrat',
+                ).copyWith(
+                  pageTransitionsTheme: const PageTransitionsTheme(
+                    builders: <TargetPlatform, PageTransitionsBuilder>{
+                      TargetPlatform.android: ZoomPageTransitionsBuilder(),
+                    },
+                  ),
                 ),
                 home: auth.isAuth
                     ? HomeFeedScreen()
