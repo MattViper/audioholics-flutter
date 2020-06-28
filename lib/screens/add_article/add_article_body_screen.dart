@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:audioholics/models/add_article_arguments.dart';
@@ -8,6 +7,7 @@ import 'package:audioholics/providers/articles.dart';
 import 'package:audioholics/shared/color_palette.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:notustohtml/notustohtml.dart';
 import 'package:provider/provider.dart';
 import 'package:quill_delta/quill_delta.dart';
 import 'package:zefyr/zefyr.dart';
@@ -51,6 +51,7 @@ class _AddArticleBodyScreenState extends State<AddArticleBodyScreen> {
     final String _title = args.title;
     final String _description = args.description;
     final String _category = args.category;
+    final converter = NotusHtmlCodec();
 
     final theme = new ZefyrThemeData(
       toolbarTheme: ToolbarTheme.fallback(context).copyWith(
@@ -62,7 +63,9 @@ class _AddArticleBodyScreenState extends State<AddArticleBodyScreen> {
 
     _submit() {
       try {
-        final body = jsonEncode(_controller.document);
+        final body = converter.encode(_controller.document.toDelta());
+        final delta = new Delta();
+        delta.insert(body);
         Provider.of<Articles>(context, listen: false).addArticle(Article.add(
             title: _title,
             description: _description,

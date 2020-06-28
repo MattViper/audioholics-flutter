@@ -29,15 +29,15 @@ class Article with ChangeNotifier {
       this.created,
       this.updated});
 
-  Article.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    slug = json['slug'];
-    title = json['title'];
-    description = json['description'];
-    body = json['content'];
-    category = json['category'];
-    points = json['points'];
-    created = DateTime.tryParse(json['created']);
-    updated = DateTime.tryParse(json['updated']);
+  Article.fromJson(Map<String, dynamic> _json) {
+    id = _json['id'];
+    slug = _json['slug'];
+    title = _json['title'];
+    description = _json['description'];
+    body = _json['body'];
+    category = _json['category'];
+    points = _json['points'];
+    created = DateTime.tryParse(_json['created']);
+    updated = DateTime.tryParse(_json['updated']);
   }
 }

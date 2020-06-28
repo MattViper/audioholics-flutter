@@ -22,7 +22,6 @@ class HomeFeedScreen extends StatefulWidget {
 
 class _HomeFeedScreenState extends State<HomeFeedScreen> with RouteAware {
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey();
-
   GlobalKey _fabKey = GlobalKey();
 
   @override

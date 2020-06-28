@@ -1,3 +1,4 @@
+import 'package:audioholics/screens/ArticleScreen.dart';
 import 'package:audioholics/screens/add_article/add_article_body_screen.dart';
 import 'package:audioholics/screens/add_article/add_article_meta_screen.dart';
 import 'package:audioholics/screens/home_feed_screen.dart';
@@ -14,4 +15,5 @@ final routes = {
   HomeFeedScreen.routeName: (ctx) => HomeFeedScreen(),
   AddArticleMetaScreen.routeName: (ctx) => AddArticleMetaScreen(),
   AddArticleBodyScreen.routeName: (ctx) => AddArticleBodyScreen(),
+  ArticleScreen.routeName: (ctx) => ArticleScreen(),
 };

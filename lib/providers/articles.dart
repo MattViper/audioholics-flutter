@@ -10,12 +10,17 @@ import '../config/constants.dart';
 
 class Articles with ChangeNotifier {
   List<Article> _articles = [];
+  Article _currentArticle;
   int _articlesCount = 0;
 
   String authToken;
   int userId;
 
   Articles();
+
+  Article get currentArticle {
+    return _currentArticle;
+  }
 
   int get articlesCount {
     return _articlesCount;
@@ -32,8 +37,25 @@ class Articles with ChangeNotifier {
     return this;
   }
 
-  Article findById(int id) {
-    return _articles.firstWhere((article) => article.id == id);
+  Future<void> findById(String slug) async {
+    var url = Constants.API_URL + 'articles/$slug';
+    try {
+      final response = await http.get(
+        url,
+        headers: {
+          'Authorization': 'Bearer ' + this.authToken,
+          'Content-Type': 'application/json'
+        },
+      );
+      final responseData = json.decode(response.body);
+      final fetchedArticle = responseData['article'];
+
+      Article article = new Article.fromJson(fetchedArticle);
+      _currentArticle = article;
+      notifyListeners();
+    } catch (error) {
+      throw error;
+    }
   }
 
   Future<void> fetchArticles() async {
