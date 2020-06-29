@@ -43,6 +43,7 @@ class _ArticleCardState extends State<ArticleCard> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Padding(
                         padding: const EdgeInsets.all(20.0),
@@ -54,23 +55,35 @@ class _ArticleCardState extends State<ArticleCard> {
                             style: TextStyle(
                                 color: ColorPalette.PrimaryColor,
                                 fontStyle: FontStyle.italic,
-                                fontSize: 12.0),
+                                fontSize: 14.0),
                           ),
                           onPressed: () {},
                         )),
                     Padding(
-                      padding: const EdgeInsets.all(20.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: Text(
                         '${widget._article.created.day}-${widget._article.created.month}-${widget._article.created.year}',
                         softWrap: true,
                         style: TextStyle(
-                            fontSize: 12.0,
+                            fontSize: 14.0,
                             fontStyle: FontStyle.italic,
                             color: Colors.white70),
                       ),
                     )
                   ],
                 ),
+                Row(children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: CircleAvatar(
+                        backgroundImage:
+                            NetworkImage(widget._article.author.avatar)),
+                  ),
+                  Text(
+                    widget._article.author.artistName,
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ]),
                 Padding(
                   padding: const EdgeInsets.all(30.0),
                   child: Text(
