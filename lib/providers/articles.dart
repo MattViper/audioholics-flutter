@@ -165,4 +165,21 @@ class Articles with ChangeNotifier {
     }
     existingArticle = null;
   }
+
+  Future<void> clap(String slug) async {
+    final url = Constants.API_URL + 'articles/$slug';
+    try {
+      final response = await http.post(
+        url,
+        headers: {
+          'Authorization': 'Bearer ' + this.authToken,
+          'Content-Type': 'application/json'
+        },
+      );
+      notifyListeners();
+    } catch (error) {
+      print(error);
+      throw error;
+    }
+  }
 }

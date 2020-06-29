@@ -24,64 +24,85 @@ class _ArticleScreenState extends State<ArticleScreen> {
 
     return FutureBuilder(
       future: _fetchArticle(context),
-      builder: (BuildContext context, AsyncSnapshot snapshot) =>
-          snapshot.connectionState == ConnectionState.waiting
-              ? Center(child: CircularProgressIndicator())
-              : Consumer<Articles>(
-                  builder: (ctx, articlesData, _) => Scaffold(
-                        floatingActionButtonLocation:
-                            FloatingActionButtonLocation.endFloat,
-                        floatingActionButton: ClapFAB(),
-                        body: Container(
-                          margin: EdgeInsets.symmetric(
-                              vertical: 20.0, horizontal: 20.0),
-                          child: SingleChildScrollView(
-                              child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+      builder: (BuildContext context, AsyncSnapshot snapshot) => snapshot
+                  .connectionState ==
+              ConnectionState.waiting
+          ? Center(child: CircularProgressIndicator())
+          : Consumer<Articles>(
+              builder: (ctx, articlesData, _) => Scaffold(
+                    floatingActionButtonLocation:
+                        FloatingActionButtonLocation.endFloat,
+                    floatingActionButton: ClapFAB(
+                      slug: articlesData.currentArticle.slug,
+                    ),
+                    body: Container(
+                      margin: EdgeInsets.symmetric(
+                          vertical: 20.0, horizontal: 20.0),
+                      child: SingleChildScrollView(
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.all(20.0),
+                              child: Text(
+                                articlesData.currentArticle.title,
+                                style: TextStyle(
+                                    color: ColorPalette.PrimaryColor,
+                                    fontSize: 32.0,
+                                    fontWeight: FontWeight.w700),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.all(20.0),
-                                  child: Text(
-                                    articlesData.currentArticle.title,
-                                    style: TextStyle(
-                                        color: ColorPalette.PrimaryColor,
-                                        fontSize: 32.0,
-                                        fontWeight: FontWeight.w700),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(10.0),
-                                  child: Row(children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: CircleAvatar(
-                                          backgroundImage: NetworkImage(
-                                              articlesData.currentArticle.author
-                                                  .avatar)),
+                                    Row(
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: const EdgeInsets.all(10.0),
+                                          child: CircleAvatar(
+                                              backgroundImage: NetworkImage(
+                                                  articlesData.currentArticle
+                                                      .author.avatar)),
+                                        ),
+                                        Text(articlesData
+                                            .currentArticle.author.artistName),
+                                      ],
                                     ),
-                                    Text(articlesData
-                                        .currentArticle.author.artistName),
+                                    Padding(
+                                      padding: const EdgeInsets.all(20.0),
+                                      child: Text(
+                                        articlesData.currentArticle.points
+                                                .toString() +
+                                            ' points',
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 14.0),
+                                      ),
+                                    )
                                   ]),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(20.0),
-                                  child: Text(
-                                    articlesData.currentArticle.description,
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.normal),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(20.0),
-                                  child: Html(
-                                      data: articlesData.currentArticle.body),
-                                ),
-                              ])),
-                        ),
-                      )),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(20.0),
+                              child: Text(
+                                articlesData.currentArticle.description,
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.normal),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(20.0),
+                              child:
+                                  Html(data: articlesData.currentArticle.body),
+                            ),
+                          ])),
+                    ),
+                  )),
     );
   }
 }

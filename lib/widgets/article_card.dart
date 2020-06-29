@@ -81,8 +81,11 @@ class _ArticleCardState extends State<ArticleCard> {
                   ),
                   Text(
                     widget._article.author.artistName,
-                    style: TextStyle(color: Colors.white),
-                  ),
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16.0,
+                    ),
+                  )
                 ]),
                 Padding(
                   padding: const EdgeInsets.all(30.0),
@@ -93,6 +96,16 @@ class _ArticleCardState extends State<ArticleCard> {
                         fontFamily: 'Montserrat',
                         fontWeight: FontWeight.w700,
                         color: Colors.white),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Text(
+                      widget._article.points.toString() + ' points',
+                      style: TextStyle(color: Colors.white, fontSize: 16.0),
+                    ),
                   ),
                 )
               ],

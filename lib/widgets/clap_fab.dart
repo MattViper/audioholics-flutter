@@ -1,12 +1,15 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:audioholics/providers/articles.dart';
 import 'package:audioholics/shared/color_palette.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ClapFAB extends StatefulWidget {
-  ClapFAB({Key key, this.title}) : super(key: key);
+  ClapFAB({Key key, this.title, this.slug}) : super(key: key);
   final String title;
+  final String slug;
 
   @override
   _ClapFABState createState() => new _ClapFABState();
@@ -82,6 +85,7 @@ class _ClapFABState extends State<ClapFAB> with TickerProviderStateMixin {
     sparklesAnimationController.forward(from: 0.0);
     setState(() {
       if (_counter < 50) {
+        Provider.of<Articles>(context, listen: false).clap(widget.slug);
         _counter++;
         _sparklesAngle = random.nextDouble() * (2 * pi);
       }
