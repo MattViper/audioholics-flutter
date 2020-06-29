@@ -1,3 +1,4 @@
+import 'package:audioholics/providers/user.dart';
 import 'package:flutter/foundation.dart';
 
 class Article with ChangeNotifier {
@@ -9,6 +10,7 @@ class Article with ChangeNotifier {
   String category;
   DateTime created;
   DateTime updated;
+  User author;
 
   //Author
   int points;
@@ -26,18 +28,20 @@ class Article with ChangeNotifier {
       @required this.body,
       @required this.category,
       @required this.points,
+      @required this.author,
       this.created,
       this.updated});
 
-  Article.fromJson(Map<String, dynamic> _json) {
-    id = _json['id'];
-    slug = _json['slug'];
-    title = _json['title'];
-    description = _json['description'];
-    body = _json['body'];
-    category = _json['category'];
-    points = _json['points'];
-    created = DateTime.tryParse(_json['created']);
-    updated = DateTime.tryParse(_json['updated']);
+  Article.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    slug = json['slug'];
+    title = json['title'];
+    description = json['description'];
+    body = json['body'];
+    category = json['category'];
+    points = json['points'];
+    author = new User.fromJson(json['author']);
+    created = DateTime.tryParse(json['created']);
+    updated = DateTime.tryParse(json['updated']);
   }
 }

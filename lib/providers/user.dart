@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class User extends ChangeNotifier {
   int id;
@@ -9,10 +9,10 @@ class User extends ChangeNotifier {
 
   User(this.id, this.artistName, this.email, this.role, this.avatar);
 
-  User.fromJson(Map<String, dynamic> json){
+  User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    artistName = json['artistName'];
     email = json['email'];
+    artistName = json['artistName'];
     role = json['role'];
     avatar = json['avatar'];
   }
