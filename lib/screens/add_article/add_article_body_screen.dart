@@ -51,6 +51,7 @@ class _AddArticleBodyScreenState extends State<AddArticleBodyScreen> {
     final String _title = args.title;
     final String _description = args.description;
     final String _category = args.category;
+    final PickedFile _headerImage = args.headerImage;
     final converter = NotusHtmlCodec();
 
     final theme = new ZefyrThemeData(
@@ -67,10 +68,12 @@ class _AddArticleBodyScreenState extends State<AddArticleBodyScreen> {
         final delta = new Delta();
         delta.insert(body);
         Provider.of<Articles>(context, listen: false).addArticle(Article.add(
-            title: _title,
-            description: _description,
-            category: _category,
-            body: body));
+          title: _title,
+          description: _description,
+          category: _category,
+          body: body,
+          headerImage: _headerImage.path,
+        ));
       } catch (error) {
         throw error;
       }

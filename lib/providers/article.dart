@@ -8,6 +8,7 @@ class Article with ChangeNotifier {
   String description;
   String body;
   String category;
+  String headerImage;
   DateTime created;
   DateTime updated;
   User author;
@@ -18,7 +19,8 @@ class Article with ChangeNotifier {
       {@required this.title,
       @required this.description,
       @required this.category,
-      @required this.body});
+      @required this.body,
+      this.headerImage});
 
   Article(
       {this.id,
@@ -29,6 +31,7 @@ class Article with ChangeNotifier {
       @required this.category,
       @required this.points,
       @required this.author,
+      this.headerImage,
       this.created,
       this.updated});
 
@@ -40,6 +43,7 @@ class Article with ChangeNotifier {
     body = json['body'];
     category = json['category'];
     points = json['points'];
+    headerImage = json['headerImage'];
     author = new User.fromJson(json['author']);
     created = DateTime.tryParse(json['created']);
     updated = DateTime.tryParse(json['updated']);

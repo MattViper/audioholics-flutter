@@ -2,6 +2,7 @@ import 'package:audioholics/models/add_article_arguments.dart';
 import 'package:audioholics/screens/add_article/add_article_body_screen.dart';
 import 'package:audioholics/shared/color_palette.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AddArticleMetaScreen extends StatefulWidget {
   static const routeName = '/add-article-meta';
@@ -16,6 +17,8 @@ class _AddArticleMetaScreenState extends State<AddArticleMetaScreen> {
   var _category;
 
   final _formKey = GlobalKey<FormState>();
+  final ImagePicker _picker = ImagePicker();
+  PickedFile _imageFile;
 
   String _validateField(String field) {
     if (field.isEmpty) {
@@ -140,6 +143,11 @@ class _AddArticleMetaScreenState extends State<AddArticleMetaScreen> {
             SizedBox(
               height: 50,
             ),
+            IconButton(
+              onPressed: () async => _imageFile =
+                  await _picker.getImage(source: ImageSource.gallery),
+              icon: Icon(Icons.image),
+            ),
             Padding(
               padding: const EdgeInsets.fromLTRB(200, 100, 20, 50),
               child: FlatButton(
@@ -148,7 +156,7 @@ class _AddArticleMetaScreenState extends State<AddArticleMetaScreen> {
                     Navigator.of(context).pushNamed(
                         AddArticleBodyScreen.routeName,
                         arguments: AddArticleArguments(
-                            _title, _description, _category));
+                            _title, _description, _category, _imageFile));
                   }
                 },
                 child: Text(

@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:audioholics/providers/article.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 
 import './article.dart';
 import '../config/constants.dart';
@@ -92,28 +93,27 @@ class Articles with ChangeNotifier {
 
   Future<void> addArticle(Article article) async {
     final url = Constants.API_URL + 'articles';
+    var uri = Uri.parse(url);
+    var headers = {
+      'Authorization': 'Bearer ' + this.authToken,
+      'Content-Type': 'application/json'
+    };
     try {
-      final response = await http.post(
-        url,
-        headers: {
-          'Authorization': 'Bearer ' + this.authToken,
-          'Content-Type': 'application/json'
-        },
-        body: json.encode({
-          'title': article.title,
-          'description': article.description,
-          'category': article.category,
-          'body': article.body,
-        }),
-      );
-      final newArticle = Article(
-          title: article.title,
-          slug: json.decode(response.body)['slug'],
-          description: article.description,
-          category: article.category,
-          id: json.decode(response.body)['id'],
-          body: json.decode(response.body)['body'],
-          points: json.decode(response.body)['points']);
+      var request = http.MultipartRequest(
+        'POST',
+        uri,
+      )
+        ..fields['title'] = article.title
+        ..fields['description'] = article.description
+        ..fields['category'] = article.category
+        ..fields['body'] = article.body
+        ..files.add(await http.MultipartFile.fromPath(
+            'imageHeader', article.headerImage,
+            contentType: MediaType('image', 'jpeg')))
+        ..headers.addAll(headers);
+      var response = await http.Response.fromStream(await request.send());
+      final newArticle =
+          Article.fromJson(json.decode(response.body)['article']);
       _articles.add(newArticle);
       // _Articles.insert(0, newArticle); // at the start of the list
       notifyListeners();

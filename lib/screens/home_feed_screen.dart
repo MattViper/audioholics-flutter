@@ -51,7 +51,7 @@ class _HomeFeedScreenState extends State<HomeFeedScreen> with RouteAware {
         child:
             new Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           SizedBox(
-            height: 20,
+            height: 10,
           ),
           Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -113,7 +113,7 @@ class _HomeFeedScreenState extends State<HomeFeedScreen> with RouteAware {
                           ),
                           onRefresh: () => _refreshArticles(context))),
           Padding(
-            padding: const EdgeInsets.fromLTRB(325, 100, 0, 0),
+            padding: const EdgeInsets.fromLTRB(325, 50, 0, 0),
             child: _onFabTap(context),
           )
         ]),
