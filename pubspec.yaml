@@ -30,6 +30,7 @@ dependencies:
   flutter_html: ^1.0.0
   notustohtml: ^0.0.7
   image_picker: ^0.6.7+4
+  transparent_image: ^1.0.0
   http_parser: ^3.1.4
   google_fonts: ^1.1.0
   font_awesome_flutter: ^8.8.1

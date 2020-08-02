@@ -108,7 +108,7 @@ class Articles with ChangeNotifier {
         ..fields['category'] = article.category
         ..fields['body'] = article.body
         ..files.add(await http.MultipartFile.fromPath(
-            'imageHeader', article.headerImage,
+            'headerImage', article.headerImage,
             contentType: MediaType('image', 'jpeg')))
         ..headers.addAll(headers);
       var response = await http.Response.fromStream(await request.send());
@@ -161,7 +161,7 @@ class Articles with ChangeNotifier {
     if (response.statusCode >= 400) {
       _articles.insert(existingArticleIndex, existingArticle);
       notifyListeners();
-      throw HttpException('Nie można usunąć kursu.');
+      throw HttpException('Couldn\'t delete the article');
     }
     existingArticle = null;
   }
