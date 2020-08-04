@@ -32,7 +32,8 @@ class Profiles with ChangeNotifier {
         },
       );
       final responseData = json.decode(response.body);
-      _profile = responseData;
+      User profile = new User.fromJson(responseData);
+      _profile = profile;
       notifyListeners();
     } catch (error) {
       throw error;

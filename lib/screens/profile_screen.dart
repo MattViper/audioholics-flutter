@@ -1,10 +1,10 @@
 import 'package:audioholics/models/secure_storage.dart';
-import 'package:audioholics/providers/auth.dart';
 import 'package:audioholics/providers/profiles.dart';
 import 'package:audioholics/shared/color_palette.dart';
 import 'package:audioholics/widgets/app_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileScreen extends StatefulWidget {
   static const routeName = '/profile';
@@ -14,8 +14,11 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> with SecureStorageMixin {
+  Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+
   Future<void> _fetchProfile(BuildContext context) async {
-    final email = Provider.of<Auth>(context).email;
+    final SharedPreferences prefs = await _prefs;
+    final email = prefs.getString('email');
     await Provider.of<Profiles>(context, listen: false).findByEmail(email);
   }
 
@@ -37,8 +40,8 @@ class _ProfileScreenState extends State<ProfileScreen> with SecureStorageMixin {
                               vertical: 20.0, horizontal: 20.0),
                           child: SingleChildScrollView(
                               child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   children: <Widget>[
                                 Padding(
                                   padding: const EdgeInsets.all(20.0),
@@ -55,8 +58,8 @@ class _ProfileScreenState extends State<ProfileScreen> with SecureStorageMixin {
                                   child: Text(
                                     profileData.profile.email,
                                     style: TextStyle(
-                                        color: ColorPalette.PrimaryColor,
-                                        fontSize: 32.0,
+                                        color: Colors.grey[800],
+                                        fontSize: 16.0,
                                         fontWeight: FontWeight.w700),
                                   ),
                                 ),

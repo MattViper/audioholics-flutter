@@ -5,11 +5,13 @@ import 'package:audioholics/helpers/jwt_decoder.dart';
 import 'package:audioholics/models/secure_storage.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../config/constants.dart';
 import '../models/http_exception.dart';
 
 class Auth with ChangeNotifier, SecureStorageMixin {
+  Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   String _token;
   DateTime _expiryDate;
   int _userId;
@@ -72,6 +74,7 @@ class Auth with ChangeNotifier, SecureStorageMixin {
 
   Future<void> login(String email, String password) async {
     final url = Constants.API_URL + "auth/signin";
+    final SharedPreferences prefs = await _prefs;
     try {
       final response = await http.post(
         url,
@@ -111,8 +114,8 @@ class Auth with ChangeNotifier, SecureStorageMixin {
       setSecureStorage('artistName', _artistName);
       setSecureStorage('avatar', _avatar);
       setSecureStorage('role', _role);
-
-      notifyListeners();
+      prefs.setString('email', _email);
+      prefs.setString('artistName', _artistName);
     } catch (error) {
       throw error;
     }
