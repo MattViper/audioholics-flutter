@@ -1,4 +1,5 @@
 import 'package:audioholics/providers/auth.dart';
+import 'package:audioholics/screens/profile_screen.dart';
 import 'package:audioholics/shared/color_palette.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -30,9 +31,10 @@ class AppDrawer extends StatelessWidget {
             title: Text("Home"),
           ),
           ListTile(
-            leading: Icon(Icons.person),
-            title: Text("Profile"),
-          ),
+              leading: Icon(Icons.person),
+              title: Text("Profile"),
+              onTap: () =>
+                  Navigator.of(context).pushNamed(ProfileScreen.routeName)),
           ListTile(
             leading: Icon(Icons.exit_to_app),
             title: Text("Logout"),

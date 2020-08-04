@@ -19,6 +19,21 @@ class Auth with ChangeNotifier, SecureStorageMixin {
   bool _emailExists;
 
   String _role;
+  String _email;
+  String _artistName;
+  String _avatar;
+
+  String get email {
+    return _email;
+  }
+
+  String get artistName {
+    return _artistName;
+  }
+
+  String get avatar {
+    return _avatar;
+  }
 
   Map<String, dynamic> _decodedToken;
 
@@ -76,7 +91,9 @@ class Auth with ChangeNotifier, SecureStorageMixin {
       _userId = responseData['id'];
       _role = responseData['role'];
       _decodedToken = JwtDecoder.tryParseJwt(_token);
-
+      _email = responseData['email'];
+      _artistName = responseData['artistName'];
+      _avatar = responseData['avatar'];
       var values = _decodedToken.values.toList();
       var expiresIn = values[2] - values[1];
 
@@ -90,6 +107,9 @@ class Auth with ChangeNotifier, SecureStorageMixin {
 
       setSecureStorage('token', _token);
       setSecureStorage('expiryDate', _expiryDate.toIso8601String());
+      setSecureStorage('email', _email);
+      setSecureStorage('artistName', _artistName);
+      setSecureStorage('avatar', _avatar);
       setSecureStorage('role', _role);
 
       notifyListeners();

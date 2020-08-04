@@ -1,6 +1,7 @@
 import 'package:audioholics/models/secure_storage.dart';
 import 'package:audioholics/providers/articles.dart';
 import 'package:audioholics/providers/auth.dart';
+import 'package:audioholics/providers/profiles.dart';
 import 'package:audioholics/screens/home_feed_screen.dart';
 import 'package:audioholics/shared/color_palette.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,11 @@ class Audioholics extends StatelessWidget with SecureStorageMixin {
           ChangeNotifierProxyProvider<Auth, Articles>(
               create: (ctx) => Articles(),
               update: (context, auth, articles) => articles.update(auth.token,
-                  auth.userId, articles == null ? [] : articles.articles))
+                  auth.userId, articles == null ? [] : articles.articles)),
+          ChangeNotifierProxyProvider<Auth, Profiles>(
+              create: (ctx) => Profiles(),
+              update: (context, auth, profiles) => profiles.update(auth.token,
+                  auth.userId, profiles == null ? null : profiles.profile)),
         ],
         child: Consumer<Auth>(
             builder: (ctx, auth, _) => MaterialApp(
