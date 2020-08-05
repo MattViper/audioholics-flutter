@@ -108,14 +108,14 @@ class Auth with ChangeNotifier, SecureStorageMixin {
 
       _autoLogout();
 
-      setSecureStorage('token', _token);
-      setSecureStorage('expiryDate', _expiryDate.toIso8601String());
-      setSecureStorage('email', _email);
-      setSecureStorage('artistName', _artistName);
-      setSecureStorage('avatar', _avatar);
-      setSecureStorage('role', _role);
+      prefs.setString('token', _token);
+      prefs.setString('expiryDate', _expiryDate.toIso8601String());
+      prefs.setString('avatar', _avatar);
+      prefs.setString('role', _role);
       prefs.setString('email', _email);
       prefs.setString('artistName', _artistName);
+
+      notifyListeners();
     } catch (error) {
       throw error;
     }
@@ -147,13 +147,13 @@ class Auth with ChangeNotifier, SecureStorageMixin {
   }
 
   Future<bool> tryAutoLogin() async {
-    final token = await secureStore.read(key: 'token');
+    final SharedPreferences prefs = await _prefs;
+    final token = prefs.getString('token');
     if (token == null) {
       return false;
     }
 
-    final expiryDate =
-        DateTime.parse(await secureStore.read(key: 'expiryDate'));
+    final expiryDate = DateTime.parse(prefs.getString('expiryDate'));
 
     if (expiryDate.isBefore(DateTime.now())) {
       return false;
@@ -166,6 +166,7 @@ class Auth with ChangeNotifier, SecureStorageMixin {
   }
 
   Future<void> logout() async {
+    final SharedPreferences prefs = await _prefs;
     _token = null;
     _userId = null;
     _expiryDate = null;
@@ -173,7 +174,7 @@ class Auth with ChangeNotifier, SecureStorageMixin {
       _authTimer.cancel();
       _authTimer = null;
     }
-    secureStore.deleteAll();
+    prefs.clear();
     notifyListeners();
   }
 
@@ -205,7 +206,7 @@ class Auth with ChangeNotifier, SecureStorageMixin {
     }
   }
 
-  Future<bool> checkEmail(String email) async {
+  Future<void> checkEmail(String email) async {
     final url = Constants.API_URL + "auth/checkemail";
     try {
       final response = await http.post(url,
