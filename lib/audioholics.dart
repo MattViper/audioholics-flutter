@@ -1,6 +1,7 @@
 import 'package:audioholics/models/secure_storage.dart';
 import 'package:audioholics/providers/articles.dart';
 import 'package:audioholics/providers/auth.dart';
+import 'package:audioholics/providers/comments.dart';
 import 'package:audioholics/providers/profiles.dart';
 import 'package:audioholics/screens/home_feed_screen.dart';
 import 'package:audioholics/shared/color_palette.dart';
@@ -23,6 +24,10 @@ class Audioholics extends StatelessWidget with SecureStorageMixin {
               create: (ctx) => Articles(),
               update: (context, auth, articles) => articles.update(auth.token,
                   auth.userId, articles == null ? [] : articles.articles)),
+          ChangeNotifierProxyProvider<Auth, Comments>(
+              create: (ctx) => Comments(),
+              update: (context, auth, comments) => comments.update(auth.token,
+                  auth.userId, comments == null ? [] : comments.comments)),
           ChangeNotifierProxyProvider<Auth, Profiles>(
               create: (ctx) => Profiles(),
               update: (context, auth, profiles) => profiles.update(auth.token,

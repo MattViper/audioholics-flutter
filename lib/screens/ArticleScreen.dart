@@ -1,4 +1,5 @@
 import 'package:audioholics/providers/articles.dart';
+import 'package:audioholics/screens/add_comment_screen.dart';
 import 'package:audioholics/shared/color_palette.dart';
 import 'package:audioholics/widgets/clap_fab.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,7 @@ class _ArticleScreenState extends State<ArticleScreen> {
   @override
   Widget build(BuildContext context) {
     final controller = ScrollController();
+    final slug = ModalRoute.of(context).settings.arguments as String;
 
     return FutureBuilder(
       future: _fetchArticle(context),
@@ -100,6 +102,24 @@ class _ArticleScreenState extends State<ArticleScreen> {
                               child:
                                   Html(data: articlesData.currentArticle.body),
                             ),
+                            Center(
+                              child: FlatButton(
+                                onPressed: () => {
+                                  Navigator.of(context).pushNamed(
+                                      AddCommentScreen.routeName,
+                                      arguments: slug)
+                                },
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(50.0)),
+                                child: Text(
+                                  'Add Comment',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                color: ColorPalette.PrimaryColor,
+                              ),
+                            )
                           ])),
                     ),
                   )),
