@@ -27,7 +27,7 @@ class Comments with ChangeNotifier {
 
   Future<void> fetchComments(String articleSlug) async {
     _comments = new List<Comment>();
-    var url = Constants.API_URL + 'comments';
+    var url = Constants.API_URL + 'comments/$articleSlug';
     try {
       final response = await http.get(
         url,
